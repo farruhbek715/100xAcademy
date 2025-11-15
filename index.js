@@ -59,7 +59,31 @@ Quyidagi menyudan kerakli bo‘limni tanlang 👇
         }
         )
     } else if (text == "✍️ Ro‘yxatdan o‘tish"){
+        bot.sendMessage(chatId, `
+✍️ Ro‘yxatdan o‘tish uchun quyidagi ma’lumotlarni yuboring:
 
+1) To‘liq ismingiz  
+2) Telefon raqamingiz
+
+Masalan:
+Ali Valiyev
++998 90 123 45 67
+
+`,
+{reply_markup:{
+    inline_keyboard:[
+        [{text: "Yuborish", callback_data: "yuborish"}]
+    ]
+}})
+    
+    } else if (text == "ℹ️ Markaz haqida") {
+        bot.sendMessage(chatId, `eawWEATTTTSRRR`, {
+            reply_markup: {
+                inline_keyboard:[
+                    [{text: "manzilni ko'rish" , callback_data: "manzil"}]
+                ]
+            }
+        })
     }
 
 });
@@ -75,7 +99,7 @@ if (data == "course_english") {
 👨‍🏫 O‘qituvchi: Tajribali filologlar  
 💰 Narxi: 450 000 so‘m / oy
 
-✍️ Agar sizni bu kurs qiziqtirsa, “Ro‘yxatdan o‘tish” tugmasini bosing.
+✍️ Kursga yozilmoqchimisiz? “Ro‘yxatdan o‘tish” tugmasini bosing
 ` )
 }else if (data == "course_russian") {
     bot.sendMessage(chatId, `
@@ -104,7 +128,7 @@ if (data == "course_english") {
 👨‍🏫 O‘qituvchi: Tajribali o‘qituvchilar  
 📍 Joylashuv: Chilonzor, Toshkent
 
-✍️ Kursga yozilish uchun “Ro‘yxatdan o‘tish” tugmasini bosing
+✍️ Kursga yozilmoqchimisiz? “Ro‘yxatdan o‘tish” tugmasini bosing
   `)
 } else if (data == "course_programming") {
     bot.sendMessage(chatId, `
@@ -120,7 +144,7 @@ if (data == "course_english") {
 💰 Narxi: 550 000 so‘m / oy  
 📍 Joylashuv: Chilonzor, Toshkent
 
-✍️ Ro‘yxatdan o‘tish uchun “Ro‘yxatdan o‘tish” tugmasini bosin
+✍️ Kursga yozilmoqchimisiz? “Ro‘yxatdan o‘tish” tugmasini bosing
 
 `)
 } else if (data == "course_design") {
@@ -134,9 +158,11 @@ if (data == "course_english") {
 💰 Narxi: 500 000 so‘m / oy  
 📍 Joylashuv: Chilonzor, Toshkent
 
-✍️ Agar siz dizayn sohasida o‘qishni istasangiz, quyidagi tugmani bosing:
+✍️ Kursga yozilmoqchimisiz? “Ro‘yxatdan o‘tish” tugmasini bosing
 
 `)
+} else if (data == "manzil") {
+    bot.sendLocation(chatId, 41.3870256, 60.3626525 )
 }
  });
 console.log("bot ishladi....");
