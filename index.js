@@ -1,7 +1,9 @@
 import TelegramBot from "node-telegram-bot-api";
+
 const TOKEN = "8263389356:AAEiUrqAaw3wQxi92gp4xTD4JpdeLSi3xhw"
 
 const bot = new TelegramBot(TOKEN, { polling: true });
+let users = []
 
 bot.on("message", (msg) => {
     console.log(msg);
@@ -54,6 +56,7 @@ Quyidagi menyudan kerakli bo‘limni tanlang 👇
                     [{ text: "🧮 Matematika", callback_data: "course_math" }],
                     [{ text: "💻 Dasturlash", callback_data: "course_programming" }],
                     [{ text: "🎨 Grafik dizayn", callback_data: "course_design" }],
+                    [{ text: "⬅️ Orqaga", callback_data: "back_to_menu" }]
                 ]
             }
         }
@@ -70,11 +73,35 @@ Ali Valiyev
 +998 90 123 45 67
 
 `,
-{reply_markup:{
-    inline_keyboard:[
-        [{text: "Yuborish", callback_data: "yuborish"}]
-    ]
-}})
+const userExists = usersData.some((user) => user.chatId === chatId);
+    console.log("exists: ", userExists);
+    if (!userExists) {
+      usersData = [
+        ...usersData,
+        { chatId: chatId, firstName: firstName, admin: false },
+      ];
+    }
+
+    console.log(usersData);
+    bot.sendMessage(chatId, `Tabriklaymiz, siz ro'yhatdan o'tdingiz! ✅`);
+
+    usersData.forEach((user) => {
+      console.log(`user: ${user.firstName}`);
+      if (user.admin == true) {
+        bot.sendMessage(
+          user.chatId,
+          `Yangi xabar ✅\n-User: ${firstName}\n-chatId:${chatId}\n**********`
+        );
+      }
+    });
+  }
+// {reply_markup:{
+//     inline_keyboard:[
+//         [{text: "Yuborish", callback_data: "yuborish"}]
+//     ]
+// }
+}
+)
     
     } else if (text == "ℹ️ Markaz haqida") {
         bot.sendMessage(chatId, `eawWEATTTTSRRR`, {
@@ -84,6 +111,39 @@ Ali Valiyev
                 ]
             }
         })
+    } else if (text == "💬 Fikr bildirish") {
+        bot.sendMessage(chatId, 
+            `
+💬 Fikringiz biz uchun juda muhim!
+
+Iltimos, quyidagi ko‘rinishda fikr yoki taklifingizni yuboring:
+
+Masalan:
+- Darslar juda yoqdi, rahmat 🙂
+- Taklif: Dasturlash kurslari sonini oshirsangiz yaxshi bo‘lardi
+- Shikoyat: Dars vaqtlari o‘zgarib ketdi
+
+Fikringizni yozing 👇
+`
+        )
+    } else if (text == "❓ Yordam") {
+        bot.sendMessage(chatId,
+            `❓ Yordam bo‘limidasiz!
+
+Bu bot orqali siz quyidagi imkoniyatlardan foydalanishingiz mumkin:
+
+📚 Kurslar — O‘quv markazdagi barcha kurslar haqida batafsil ma’lumot olasiz.
+
+✍️ Ro‘yxatdan o‘tish — Tanlagan kursingizga onlayn tarzda ro‘yxatdan o‘ta olasiz.
+
+ℹ️ Markaz haqida — Manzilimiz, aloqa raqamlarimiz va ish vaqtini ko‘rasiz.
+
+💬 Fikr bildirish — O‘quv markazimiz haqida o‘z fikr-mulohazangizni qoldirishingiz mumkin.
+
+Agar adashib qolsangiz, quyidagi tugmani bosing:
+👉 /start
+`
+         )
     }
 
 });
@@ -161,7 +221,22 @@ if (data == "course_english") {
 ✍️ Kursga yozilmoqchimisiz? “Ro‘yxatdan o‘tish” tugmasini bosing
 
 `)
-} else if (data == "manzil") {
+} else if (data == "back_to_menu") {
+    bot.sendMessage(chatId, 
+`Asosiy menyu 👇`,
+{
+    reply_markup: {
+        keyboard: [
+            [{ text: "📚 Kurslar" }, { text: "✍️ Ro‘yxatdan o‘tish" }],
+            [{ text: "ℹ️ Markaz haqida" }, { text: "💬 Fikr bildirish" }],
+            [{ text: "❓ Yordam" }],
+        ],
+        resize_keyboard: true
+    }
+});
+}
+
+ else if (data == "manzil") {
     bot.sendLocation(chatId, 41.3870256, 60.3626525 )
 }
  });
